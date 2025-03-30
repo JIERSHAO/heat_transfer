@@ -43,7 +43,7 @@ def solve_heat_conduction_tdma(T_left, T_right, T_top, n_nodes=5, max_iter=5000,
             for j in range(3):
                 T[i, j+1] = row_solution[j]
         
-        # 强制处理绝热底边条件
+        # 强制处理绝热底边条件 !TODO:这里和老师的处理方法不一致，老师是利用插值得到最后一个。
         for j in range(1, n_nodes-1):
             T[n_nodes-1, j] = T[n_nodes-2, j]
         
