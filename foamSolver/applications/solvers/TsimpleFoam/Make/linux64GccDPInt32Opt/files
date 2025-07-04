@@ -1,0 +1,3 @@
+SOURCE += TsimpleFoam.C
+
+EXE = $(FOAM_APPBIN)/TsimpleFoam

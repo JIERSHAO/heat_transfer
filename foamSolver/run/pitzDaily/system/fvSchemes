@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         steadyState;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+divSchemes
+{
+    // 稳态计算
+    default              none;
+    div(phi,U)           bounded Gauss linearUpwind grad(U);
+    div(phi,k)           bounded Gauss limitedLinear 1;
+    div(phi,epsilon)     bounded Gauss limitedLinear 1;
+    div(phi,omega)       bounded Gauss limitedLinear 1;
+    div(phi,v2)          bounded Gauss limitedLinear 1;
+    div((nuEff*dev2(T(grad(U)))))      Gauss linear;
+    div(nonlinearStress)      Gauss linear;
+
+    div((nuEff*dev(grad(U).T())))   Gauss linear;  
+    div(phi,T)           Gauss upwind;
+}
+
+laplacianSchemes
+{
+    // default         Gauss linear orthogonal;
+    default         Gauss linear corrected; // 默认的拉普拉斯项使用 Gauss 线性校正方法
+    laplacian(DT,T) Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear; // 默认的插值方法是线性插值
+}
+
+snGradSchemes
+{
+    // default         orthogonal;
+    default         corrected;
+}
+
+wallDist
+{
+    method meshWave;
+}
+// ************************************************************************* //
